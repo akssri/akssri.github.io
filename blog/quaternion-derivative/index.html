@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do you know your Quaternion ? · || वक्राकाश: ||</title>
+<meta name="author" content="अक्षयश्रीनिवासैय्यङ्गार्यः">
+
+<link rel="stylesheet" href="../../css/style.css">
+
+<link rel="stylesheet" href="../../css/syntax.css">
+<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="http://localhost:1313/feed.xml">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    tags: 'ams',
+    macros: {
+      p: '\\partial',
+      diff: ['{\\mathrm{d}{#1}}', 1],
+      E: '\\operatorname{E}',
+      e: '\\operatorname{e}',
+      id: '\\operatorname{id}',
+      nd: '{\\mathcal{N}}',
+      argmin: '\\mathsf{arg}\\,\\min',
+      argmax: '\\mathsf{arg}\\,\\max',
+      norm: ['{\\lvert\\lvert {#1} \\rvert\\rvert}', 1],
+      pr: '{\\mathbb{P}}'
+    }
+  },
+  chtml: {
+    displayAlign: 'left'
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head>
+<body>
+<div id="preamble"><header class="site-header">
+  <a class="site-title" href="../../">|| वक्राकाश: ||</a>
+</header>
+</div>
+<div id="content" class="content">
+<h1 class="title">Do you know your Quaternion ?</h1>
+<p class="subtitle">२०२६-०७-०४&nbsp;शनि:</p>
+
+<div id="outline-container-orgc6e6501" class="outline-2">
+<h2 id="orgc6e6501"><span class="section-number-2">1.</span> Quaternion</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Quaternions are a tuple of a scalar &amp; a vector \((w, v)\),
+\[\operatorname{scl} : (w, v) \mapsto w \in \mathbb{R},\quad \operatorname{vec} : (w, v) \mapsto v \in \mathbb{R}^3,\]
+with the group-product defined by,
+\[(w_1, v_1) (w_2, v_2) = (w_1 w_2 - v_1 \cdot v_2,\; w_1 v_2 + w_2 v_1 + v_1 \times v_2),\]
+and inverse by \(q^{-1} = q^* = (w, -v)\).
+</p>
+
+<p>
+For the inverse relation to hold, we require the quaternions to be unitary,
+\[q\, q^* = w^2 + v \cdot v = 1.\]
+</p>
+</div>
+</div>
+<div id="outline-container-orgeb815c0" class="outline-2">
+<h2 id="orgeb815c0"><span class="section-number-2">2.</span> Action on \(\mathbb{R}^3\)</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Quaternions are used widely for parametrizing rotations using their action on \(\mathbb{R}^{3}\),
+\[\operatorname{rot}_q v \;\equiv\; q\, (0, v)\, q^{*} \;=\; \operatorname{Aut}_q(0, v) \;=\; (0, v'),\]
+where \(\operatorname{Aut}_g(x) = g x g^{-1}\).
+</p>
+
+<p>
+<i>eg.</i> If \(q = \exp({\theta \over 2} \hat{k}) = (\cos({\theta \over 2}), \hat{k} \sin({\theta \over 2}))\), then \(v\) gets rotated by \(\theta\) along the axis defined by the unit vector \(\hat{k}\),
+\[\operatorname{rot}_q v = \exp({\theta \over 2} \hat{k})\; (0, v)\; \exp(-{\theta \over 2} \hat{k}) = (0, v \cos(\theta) + (\hat{k} \times v) \sin(\theta) + \hat{k} (\hat{k} \cdot v) (1 - \cos(\theta))).\]
+</p>
+
+<p>
+The above is the so-called Rodrigues rotation-formula,
+\[\operatorname{rot}_q v = (I + \sin(\theta) K_{\times} + (1 - \cos(\theta)) K_{\times}^2) v,\]
+where,
+\[K_{\times} : x \mapsto \hat{k} \times x.\]
+</p>
+
+<p>
+Note: we'll be abusing the notation in the following sections by considering \((0, v)\) and \(v\) to be the same object.
+</p>
+</div>
+</div>
+<div id="outline-container-org21b6104" class="outline-2">
+<h2 id="org21b6104"><span class="section-number-2">3.</span> Variational forms</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The next building block we need is the effect of small-variations on this <i>action</i>,
+\[ \delta (\operatorname{rot}_q x) = \delta q\; (0, x)\; q^* + q\; (0, x)\; \delta (q^*) + \operatorname{rot}_q \delta x.\]
+</p>
+
+<p>
+Since \(q q^* = 1\),
+\[\begin{array}{l}
+\delta q \; q^* + q \; \delta (q^*) = 0, \\
+\delta (q^*) = - q^* \; \delta q \; q^*.\end{array}\]
+</p>
+
+<p>
+Hence,
+\[\begin{array}{r l}
+\delta (\operatorname{rot}_q x) &= \delta q\; (0, x)\; q^* + q\; (0, x)\; \delta (q^*) + \operatorname{rot}_q \delta x\,\\
+ &= \delta q\; (0, x)\; q^* - q\; (0, x)\; q^* \; \delta q\; q^* + \operatorname{rot}_q \delta x,\\
+ &= \delta q\; q^*\; q\; (0, x)\; q^* - q\; (0, x)\; q^* \; \delta q\; q^* + \operatorname{rot}_q \delta x,\\
+ &= \{\delta q\; q^* , \operatorname{rot}_q x\} + \operatorname{rot}_q \delta x\\
+\\\end{array}\]
+</p>
+
+
+<p>
+From the quaternion-product,
+\[\begin{array}{r l}
+\{a, b\} &= a b - b a ,\\
+ &= (0, 2 \operatorname{vec}[a] \times \operatorname{vec}[b]).
+\\\end{array}\]
+</p>
+
+<p>
+Ergo,
+\[\begin{array}{r l}
+\delta (\operatorname{rot}_q x)
+ &= \{\delta q\; q^* , \operatorname{rot}_q x\} + \operatorname{rot}_q \delta x,\\
+ &= 2 \operatorname{vec}[\delta q\; q^*] \times \operatorname{rot}_q x + \operatorname{rot}_q \delta x,\\
+ &= \boxed{\omega \times \operatorname{rot}_q x + \operatorname{rot}_q \delta x,\quad \omega = 2 \operatorname{vec}[\delta q\; q^*]},\\
+ &= q \{ q^*\; \delta q , x\} q^{*} + \operatorname{rot}_q \delta x,\\
+ &= \operatorname{rot}_q (2 \operatorname{vec}[q^{*}\; \delta q] \times x) + \operatorname{rot}_q \delta x,\\
+ &= \boxed{\operatorname{rot}_q (\Omega \times x + \delta x), \quad \Omega = 2 \operatorname{vec}[q^* \; \delta q]}.\\
+\end{array}\]
+</p>
+
+
+<p>
+Also,
+\[\delta q = (0, {\omega \over 2})\; q = q\; (0, {\Omega \over 2})\]
+</p>
+
+<p>
+Typically, one parametrizes variations using either \(\omega\) or \(\Omega\) rather than \(\delta q\) in the embedding coordinates, since the latter must respect the embedding's unitary-quaternion constraint on the tangent space.
+</p>
+</div>
+</div>
+<div id="outline-container-org4380e4b" class="outline-2">
+<h2 id="org4380e4b"><span class="section-number-2">4.</span> Chain-rule / Pull-back</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Suppose we have some function \(f: Q \rightarrow \mathbb{R}\). Variations of \(f\) are of the form,
+</p>
+
+<p>
+\[\begin{array}{r l}
+\delta f &= df \cdot \delta q,\\
+ &= df \cdot (0, \omega / 2) \; (\epsilon, \xi), \quad \mbox{let } q = (\epsilon, \xi),\\
+ &= df \cdot {1 \over 2} (- \omega \cdot \xi, \epsilon \omega + \omega \times \xi).
+\end{array}\]
+</p>
+
+<p>
+Suppose \(df = (df_w, df_v)\),
+\[\begin{array}{r l}
+\delta f &= (df_w, df_v) \cdot {1 \over 2} (- \omega \cdot \xi, \epsilon \omega + \omega \times \xi),\\
+&= {1 \over 2} \left( - df_w \omega \cdot \xi + \epsilon df_v \cdot \omega + df_v \cdot (\omega \times \xi) \right),\\
+&= {1 \over 2} \left( (\epsilon df_v - df_w \xi) \cdot \omega + \omega \cdot (\xi \times df_v) \right),\\
+&= {1 \over 2} (\epsilon \; df_v - df_w\; \xi + \xi \times df_v) \cdot \omega,\\
+&= {1 \over 2} \operatorname{vec}[(df_w, df_v) (\epsilon, - \xi)] \cdot \omega,\\
+&= {1 \over 2} \operatorname{vec}[df \; q^*] \cdot \omega.
+\end{array}\]
+</p>
+</div>
+</div>
+<div id="outline-container-orge359d10" class="outline-2">
+<h2 id="orge359d10"><span class="section-number-2">5.</span> Example — pose derivatives in MuJoCo</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+For a concrete demonstration, let's look at how to deal with the derivatives of pose-quaternions in MuJoCo. The object-pose shows up in loss-functions ranging from IK to state-estimation to control, so their derivatives show up everywhere as well. There are multiple ways of measuring deviations from a target-pose: one is to minimize the vector part of the difference, \(\operatorname{vec}[q_s(\theta)\, q_t^{-1}]\); another is to minimize the (quaternion) log of the difference, \(2 \log(q_t\, q_s(\theta)^{-1})\). The latter is very popular in the MuJoCo ecosystem for IK, etc.
+</p>
+
+<p>
+The loss-function is typically the $L<sup>2</sup>$-norm of these features, so that iteration can proceed via the Gauss-Newton method using the feature-Jacobian.
+The code-fragment below shows how to compute this Jacobian exactly.
+</p>
+
+<p>
+The joint-space gradient chains through three layers,
+\[F \xrightarrow{\;dF\;} q_s \xrightarrow{\;\text{pull-back}\;} \omega \xrightarrow{\;J_\omega\;} \theta,\]
+with the middle arrow being exactly the identity derived above,
+\[\partial_\omega F_i = {1 \over 2} \operatorname{vec}[dF_i \; q^*]\]
+and \(J_\omega := \partial\omega_{\text{spatial}} / \partial\theta\) is MuJoCo's site Jacobian (<code>mj_jacSite</code>), and so \(\partial_\theta F_i = \partial_{\omega} F_i\, J_{\omega}\).
+We check this against the finite-difference ground truth.
+</p>
+
+<p>
+First, let's begin with the group operations,
+</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax</span><span class="o">,</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">qmul</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">aw</span><span class="p">,</span> <span class="n">av</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:];</span> <span class="n">bw</span><span class="p">,</span> <span class="n">bv</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([(</span><span class="n">aw</span><span class="o">*</span><span class="n">bw</span> <span class="o">-</span> <span class="n">av</span> <span class="o">@</span> <span class="n">bv</span><span class="p">)[</span><span class="kc">None</span><span class="p">],</span>
+                            <span class="n">aw</span><span class="o">*</span><span class="n">bv</span> <span class="o">+</span> <span class="n">bw</span><span class="o">*</span><span class="n">av</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">av</span><span class="p">,</span> <span class="n">bv</span><span class="p">)])</span>
+
+<span class="n">qconj</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">q</span><span class="p">:</span> <span class="n">q</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">])</span>
+<span class="n">pure</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">v</span><span class="p">])</span>
+<span class="n">rot</span>   <span class="o">=</span> <span class="k">lambda</span> <span class="n">R</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">qmul</span><span class="p">(</span><span class="n">qmul</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">pure</span><span class="p">(</span><span class="n">v</span><span class="p">)),</span> <span class="n">qconj</span><span class="p">(</span><span class="n">R</span><span class="p">))[</span><span class="mi">1</span><span class="p">:]</span>      <span class="c1"># rot_R(v)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">qexp</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>                                                   <span class="c1"># exp((0, v)) = (cos|v|, v̂ sin|v|)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="kc">None</span><span class="p">],</span> <span class="n">v</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sinc</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pi</span><span class="p">)])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">qlog</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>                                                   <span class="c1"># ~ 0.5 * mujoco.mju_quat2Vel (dt=1)</span>
+    <span class="n">q</span>    <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">q</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>                        <span class="c1"># canonical branch, angle ∈ [0, π]</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">n</span>    <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mf">1e-12</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+<p>
+We use the Unitree G1 humanoid (from Mujoco Menagerie) to build this example, and use the deviation of a site \(s\) on the body (<code>left_foot</code>) from an arbitrary target as our features.
+</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mujoco</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span><span class="o">,</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjModel</span><span class="o">.</span><span class="n">from_xml_path</span><span class="p">(</span><span class="s1">&#39;../mujoco_menagerie/unitree_g1/g1.xml&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjData</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">site</span><span class="p">(</span><span class="s1">&#39;left_foot&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">id</span>
+
+<span class="n">mujoco</span><span class="o">.</span><span class="n">mj_resetData</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">mujoco</span><span class="o">.</span><span class="n">mj_forward</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">site_quat</span><span class="p">(</span><span class="n">site_id</span><span class="o">=</span><span class="n">site_id</span><span class="p">):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>  <span class="n">mujoco</span><span class="o">.</span><span class="n">mju_mat2Quat</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">site_xmat</span><span class="p">[</span><span class="n">site_id</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">q</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">q_target</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>  <span class="n">q_target</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">q_target</span><span class="p">)</span>
+<span class="n">q_target</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q_target</span><span class="p">)</span>
+
+<span class="c1">#######</span>
+<span class="c1"># vec[q_s q_t^*]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lstsq_features_0</span><span class="p">(</span><span class="n">q_s</span><span class="p">,</span> <span class="n">q_t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">qmul</span><span class="p">(</span><span class="n">q_s</span><span class="p">,</span> <span class="n">qconj</span><span class="p">(</span><span class="n">q_t</span><span class="p">))[</span><span class="mi">1</span><span class="p">:]</span>
+
+<span class="c1"># 2 log(q_t q_s^*)     -- dm_control convention</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lstsq_features_1</span><span class="p">(</span><span class="n">q_s</span><span class="p">,</span> <span class="n">q_t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">qlog</span><span class="p">(</span><span class="n">qmul</span><span class="p">(</span><span class="n">q_t</span><span class="p">,</span> <span class="n">qconj</span><span class="p">(</span><span class="n">q_s</span><span class="p">)))</span>
+
+<span class="c1"># concatenate</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lstsq_features</span><span class="p">(</span><span class="n">q_s</span><span class="p">,</span> <span class="n">q_t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">lstsq_features_0</span><span class="p">(</span><span class="n">q_s</span><span class="p">,</span> <span class="n">q_t</span><span class="p">),</span>
+                            <span class="n">lstsq_features_1</span><span class="p">(</span><span class="n">q_s</span><span class="p">,</span> <span class="n">q_t</span><span class="p">)])</span>
+
+<span class="n">J_feat_q</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">lstsq_features</span><span class="p">)</span>
+
+<span class="c1"># wire features to theta</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lstsq_features_theta</span><span class="p">(</span><span class="n">qpos</span><span class="p">):</span>
+    <span class="n">orig</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">qpos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">qpos</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">qpos</span><span class="p">;</span>   <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_forward</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">lstsq_features</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">site_quat</span><span class="p">()),</span> <span class="n">q_target</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">qpos</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">orig</span><span class="p">;</span>   <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_forward</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">val</span>
+
+<span class="c1">### FD Jacobian</span>
+<span class="n">theta0</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">qpos</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span>  <span class="n">h</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">feat0</span> <span class="o">=</span> <span class="n">lstsq_features_theta</span><span class="p">(</span><span class="n">theta0</span><span class="p">)</span>
+
+<span class="n">J_feat_theta_fd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">feat0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">model</span><span class="o">.</span><span class="n">nv</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">nv</span><span class="p">):</span>
+    <span class="n">dtheta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">nv</span><span class="p">);</span>  <span class="n">dtheta</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">theta_eps</span> <span class="o">=</span> <span class="n">theta0</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span>    <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_integratePos</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">theta_eps</span><span class="p">,</span> <span class="n">dtheta</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">J_feat_theta_fd</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">lstsq_features_theta</span><span class="p">(</span><span class="n">theta_eps</span><span class="p">)</span> <span class="o">-</span> <span class="n">feat0</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span>
+
+<span class="c1">#### Analytic Jacobian</span>
+<span class="n">q_site</span>  <span class="o">=</span> <span class="n">site_quat</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">J_feat_q</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q_site</span><span class="p">),</span> <span class="n">q_target</span><span class="p">))</span>                    <span class="c1"># 4-covector</span>
+
+<span class="c1"># pull-back:  ∂_ω F = ½ vec(dF q^*)</span>
+<span class="n">J_feat_omega</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">qmul</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">))(</span><span class="n">df</span><span class="p">,</span> <span class="n">qconj</span><span class="p">(</span><span class="n">q_site</span><span class="p">))[:,</span> <span class="mi">1</span><span class="p">:]</span>
+
+<span class="c1"># spatial angular-velocity Jacobian of the site (MuJoCo uses the right-invariant world-frame \omega)</span>
+<span class="n">jacp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">nv</span><span class="p">))</span>
+<span class="n">J_omega_theta</span> <span class="o">=</span> <span class="n">jacr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">nv</span><span class="p">))</span>
+<span class="n">mujoco</span><span class="o">.</span><span class="n">mj_jacSite</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">jacp</span><span class="p">,</span> <span class="n">jacr</span><span class="p">,</span> <span class="n">site_id</span><span class="p">)</span>
+
+<span class="n">J_feat_theta</span> <span class="o">=</span> <span class="n">J_feat_omega</span> <span class="o">@</span> <span class="n">J_omega_theta</span>                               <span class="c1"># analytic ∂F/∂θ</span>
+
+<span class="c1">### </span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;‖J_analytic − J_fd‖₂  = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">J_feat_theta</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">J_feat_theta_fd</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;‖J_analytic − J_fd‖_∞ = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">J_feat_theta</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">J_feat_theta_fd</span><span class="p">))</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+<pre class="example">
+‖J_analytic − J_fd‖₂  = 8.04e-07
+‖J_analytic − J_fd‖_∞ = 3.06e-07
+</pre>
+
+
+<p>
+Since \(2 \log(q_t\, q_s^*) \sim \theta_t \hat{v}_t - \theta\, \hat{v}\) (where \(q_s = \exp({1 \over 2} \theta\, \hat{v})\)) and \(q_t\) is constant, many libraries in the MuJoCo ecosystem (e.g. dm<sub>control</sub>) use \(-J_\omega\) directly as the Jacobian of the log-loss features. This approximation holds when the rotation axis is fixed (e.g. planar systems, where the dynamics lives in an abelian subgroup), but fails in general.
+</p>
+
+<p>
+It fails for Unitree as well,
+</p>
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;‖J_analytic − J_approx‖₂  = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">J_feat_theta</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="n">J_omega_theta</span><span class="p">))</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;J_logfeat_omega = </span><span class="se">\n</span><span class="si">{</span><span class="n">J_feat_omega</span><span class="p">[</span><span class="mi">3</span><span class="p">:,</span><span class="w"> </span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+<pre class="example">
+‖J_analytic − J_approx‖₂  = 3.54e+00
+
+J_logfeat_omega = 
+[[-0.29193585  0.36133125 -1.31425973]
+ [-0.07684831 -0.95215787 -0.38885768]
+ [ 1.36085755  0.16295916 -0.28109551]]
+</pre>
+
+
+<p>
+The pull-back of the log-loss features to $&omega;$-space isn't even diagonal! The genesis of this <i>approximation</i> is unclear - perhaps it comes from methods for planar systems ? From old control-methods in aerospace ? The effect of this <i>approximate gradient</i> on the global convergence of the loss-function is also unclear.
+</p>
+
+<p>
+It's surprising that the simple trick presented here for computing analytical derivatives on quaternions isn't more widely known.
+</p>
+</div>
+</div>
+<div id="outline-container-orgcc779fa" class="outline-2">
+<h2 id="orgcc779fa"><span class="section-number-2">6.</span> Appendix</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+The notation above was very hand-wavy by choice. The usual route involves Lie groups and algebras, which requires some mathematical maturity to follow but ultimately doesn't add much for readers not dealing with general Lie groups.
+</p>
+
+<p>
+For a more thorough, scenic treatment, please refer to,
+</p>
+<ul class="org-ul">
+<li>[1]. Olver, Peter J. Applications of Lie groups to Differential Equations. Vol. 107. Springer Science &amp; Business Media, 1993.</li>
+<li>[2]. Bloch, Anthony M. Nonholonomic Mechanics and Control. Springer New York, NY, 2016.</li>
+</ul>
+
+<p>
+Alternatively, one can take SICM's path of using rotation-matrices directly,
+</p>
+<ul class="org-ul">
+<li>[3]. Sussman, Gerald Jay, and Jack Wisdom. Structure and Interpretation of Classical Mechanics. MIT Press, 2015.</li>
+<li>[4]. Sussman, Gerald Jay, and Jack Wisdom. Functional differential geometry. MIT Press, 2013.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf3dce42" class="outline-2">
+<h2 id="orgf3dce42"><span class="section-number-2">7.</span> Revisions</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li><span class="timestamp-wrapper"><span class="timestamp">&lt;2026-07-17 शुक्र&gt;</span></span>: original version used \(\log(q_s\, q_t^*)\); replaced this with what dm<sub>control</sub> uses \(\log(q_t\, q_s^*)\).</li>
+<li><span class="timestamp-wrapper"><span class="timestamp">&lt;2026-07-21 मंगल:&gt;</span></span>: avoid the scaling b/w \(\exp\) and \(\log\).</li>
+</ul>
+</div>
+</div>
+
+</div>
+<div id="postamble" class="status"><p>अक्षयश्रीनिवासैय्यङ्गार्यः</p>
+</div>
+</body>
+</html>

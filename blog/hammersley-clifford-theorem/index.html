@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A generalization of the Hammersley-Clifford theorem · || वक्राकाश: ||</title>
+<meta name="author" content="अक्षयश्रीनिवासैय्यङ्गार्यः">
+
+<link rel="stylesheet" href="../../css/style.css">
+
+<link rel="stylesheet" href="../../css/syntax.css">
+<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="http://localhost:1313/feed.xml">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    tags: 'ams',
+    macros: {
+      p: '\\partial',
+      diff: ['{\\mathrm{d}{#1}}', 1],
+      E: '\\operatorname{E}',
+      e: '\\operatorname{e}',
+      id: '\\operatorname{id}',
+      nd: '{\\mathcal{N}}',
+      argmin: '\\mathsf{arg}\\,\\min',
+      argmax: '\\mathsf{arg}\\,\\max',
+      norm: ['{\\lvert\\lvert {#1} \\rvert\\rvert}', 1],
+      pr: '{\\mathbb{P}}'
+    }
+  },
+  chtml: {
+    displayAlign: 'left'
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head>
+<body>
+<div id="preamble"><header class="site-header">
+  <a class="site-title" href="../../">|| वक्राकाश: ||</a>
+</header>
+</div>
+<div id="content" class="content">
+<h1 class="title">A generalization of the Hammersley-Clifford theorem</h1>
+<p class="subtitle">२०१४-११-१५&nbsp;शनि:</p>
+
+<p>
+This is minor tweak to the Grimmett's Inclusion-Exclusion <a href="https://ssli.ee.washington.edu/ee512/handout2.pdf">proof</a> of Hammersley-Clifford theorem, which generalizes the result to "potentials" on arbitrary abelian groups. This is achieved via a generalization of the Möbius inversion lemma.
+</p>
+<div id="outline-container-orga3c49f0" class="outline-2">
+<h2 id="orga3c49f0"><span class="section-number-2">1.</span> <i>Incidence functions</i></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Let \((P, \preceq)\) be a locally-finite poset, and let \((\mathcal{A}, +)\) be an Abelian group. Define \(F_G(P)\) to be the set of functions,
+\[F_G(P) = \{f: P \times P \rightarrow \mathcal{A} | x \npreceq y \Rightarrow f(x, y) = 0_{\mathcal{A}}\}.\]
+The set \(F_G(P)\) also inherits the group structure of \(\mathcal{A}\) by pointwise extension of '\(+\)'.
+</p>
+<ul class="org-ul">
+<li><i>Incidence Algebras</i>
+If \((\mathcal{A}, +, \cdot)\) is a commutative semi-ring, the \('*'\) operator given by the Dirichlet convolution, forms the basis for the
+algebra on \(F_G(P)\).
+<ul class="org-ul">
+<li><i>Dirichlet convolution</i>
+\[(f * g)(x, z) = \sum_{x \preceq y \preceq z} f(x, y) \cdot g(y, z).\]
+<span class="underline">Properties</span>
+<ul class="org-ul">
+<li><i>Bilinear</i>
+\[(f * g)(x, z) = \sum_{x \preceq y \preceq z} f(x, y) \cdot g(y, z).\]</li>
+<li><i>Associative</i>
+\[((f * g) * h)(x, z) = \sum_{x \preceq y \preceq y' \preceq z} f(x, y) \cdot g(y, y') \cdot h(y', z) = (f * (g * h))(x, z) = (f * g * h)(x, z).\]</li>
+<li><p>
+\(\zeta\) <i>function</i>, Möbius inversion lemma
+Let \(\mathcal{A}\) be a commutative ring with identity, and let,
+\[\zeta(x, y) = \begin{cases}1_{\mathcal{A}} & x \preceq y  \\ 0_{\mathcal{A}} & \mbox{otherwise}\end{cases},\quad \delta(x, y) = \begin{cases} 1_{\mathcal{A}} & x = y \\ 0_{\mathcal{A}} & \mbox{otherwise}\end{cases}.\]
+So that,
+\[(f * \zeta)(x, z) = \sum_{x \preceq y \preceq z} f(x, y).\]
+Define the Möbius function, on \((P, \mathcal{A})\), to be the inverse of the \(\zeta\)-function.
+\[(\zeta * \mu)(x, z) = (\mu * \zeta)(x, z) = \delta(x, z).\]
+Hence -via \(\preceq\)-DAG inversion-
+\[\mu(x, z) = \begin{cases} 1_{\mathcal{A}} & x = z \\ - \sum_{x \preceq y \prec z} \mu(x, y) = - \sum_{x \prec y \preceq z} \mu(y, z) & \mbox{otherwise}\end{cases}.\]
+It is easy to see that, \(\mu(x, y) \in \langle 1_{\mathcal{A}} \rangle\).
+</p>
+
+<p>
+Hence,
+\[g = f * \zeta \Leftrightarrow f = g * \mu,\]
+\[g = \zeta * f \Leftrightarrow f = \mu * g.\]
+</p></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org800012c" class="outline-2">
+<h2 id="org800012c"><span class="section-number-2">2.</span> Generalized <i>Möbius inversion lemma</i></h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Let \(\mathcal{A}\) be an Abelian group, and let,
+</p>
+\begin{equation}
+\label{eqn:gmob}
+  f(x, z) = \sum_{x \preceq y \preceq z} g(x, y) \Leftrightarrow g(x, z) = \sum_{x \preceq y \preceq z} f(x, y) \mu(y, z)
+\end{equation}
+<p>
+where \(\mu(\cdot, \cdot)\) is the Möbius function on \((P, \mathbb{Z})\), the scalar multiplication given by the canonical power operation; proof follows as before that,
+</p>
+\begin{equation}
+\mu(x, y) = \begin{cases}
+1, & y \preceq x,\\
+      - \sum_{x\preceq y \prec z} \mu(x, y), & \mbox{otherwise}.
+\end{cases}
+\end{equation}
+
+<ul class="org-ul">
+<li><p>
+<i>Application</i>: Inclusion-Exclusion principle
+\[|\cup_{i \in I} A_i| = \sum_{i} |A_i| - \sum_{i < j} |A_i \cap A_j| + \sum_{i < j < k} |A_i \cap A_j \cap A_k| \dots - (-1)^{n} |\cap_i A_i|, \quad |I| < \infty.\]
+<i>Proof</i>
+Consider the partial order given by \((2^I, \subseteq)\), the Möbius function is given by, \(\mu(A, B) = (-1)^{B \backslash A}\)
+{<i>Proof</i>: Induction + Binomial theorem}.
+</p>
+
+<p>
+Let \(f(S) = m(\cap_{i \in S} A_i \backslash \cup_{i \in I \backslash S} A_i)\), where \(m(\cdot)\) is an additive set function, and,
+\[g(S) = \sum_{K \supseteq S} f(K),\quad f(S) = \sum_{K \supseteq S} g(K) (-1)^{|K \backslash S|}.\]
+Each of the sets \(\cap_{i \in S} A_i \backslash \cup_{i \in I \backslash S} A_i\) is disjoint. Hence,
+\[g(S) = m(\cap_{i \in S} A_i), \quad S \neq \emptyset,\]
+\[g(\emptyset) = m(\cup_{i \in I} A_i).\]
+</p>
+
+<p>
+\[0 = f(\emptyset) = g(\emptyset) + \sum_{S \subsetneq I} (-1)^{|S|} m(\cap_{i \in S} A_i),\]
+\[\therefore m(\cup_{i \in I} A_i) = \sum_{S \subsetneq I} (-1)^{|S| - 1} m(\cap_{i \in S} A_i).\] 
+</p></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org13bd8c4" class="outline-2">
+<h2 id="org13bd8c4"><span class="section-number-2">3.</span> Hammersley-Clifford theorem</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Let \((\mathcal{A}, \cdot)\) be an Abelian group, and let \(G\) be an undirected graph.
+Let \(\psi_{S} : \prod_{u \in S \subset V(G)} X_u \rightarrow \mathcal{A}\) be a family of maps such that,
+\[A \perp B | S, V \backslash (A \cup B \cup S) \Rightarrow \psi_{A \cup B \cup S} \cdot \psi_{S} = \psi_{A \cup S} \cdot \psi_{B \cup S}.\]
+</p>
+
+<p>
+The map \(\psi_V\) has a max-clique factorization,
+\[\psi_V = \prod_{C \in \mathcal{C}} \phi(x_C).\]
+</p>
+
+<p>
+<i>Proof</i>
+Consider the partial order given by \((2^V, \subseteq)\), so that,
+\[\phi_S = \prod_{T \subseteq S} \psi_T^{\mu(T, S)}, \quad \psi_S = \prod_{T\subseteq S} \phi_T,\]
+and, \(\mu(T, S) = (-1)^{|S \backslash T|}\). Suppose, \(S \subseteq V\) is not a clique, so that \(\exists a, b \in S, ab \not \in E\),
+\[\phi_{S} = \prod_{T \subseteq S} \psi_T^{\mu(T, S)} = \prod_{T \subseteq S \backslash \{a, b\}} \psi_T^{\mu(T, S)} \cdot \psi_{T\cup a}^{-\mu(T, S)} \cdot \psi_{T\cup b}^{-\mu(T, S)} \cdot \psi_{T\cup \{a, b\}}^{-\mu(T, S)} = \prod_{T \subseteq S \backslash \{a, b\}} (\psi_T \cdot \psi_{T \cup \{a, b\}} \cdot \psi_{T\cup b}^{-1} \cdot \psi_{T \cup a}^{-1})^{\mu(T, S)} = 1_{\mathcal{A}}.\]
+The last inequality follows from the independence condition.
+</p>
+
+<p>
+If we define, \(\psi_S = \mathbb{P}(x_S, \tilde{x}_{V \backslash S})\) - for some fixed \(\tilde{x}\) - then this gives the desired result for MRFs.
+</p>
+
+<p>
+Moreover -since \(\mathbb{R} \backslash \{0\}\) is an abelian group under multiplication- it generalizes to non-zero distributions with the given independence conditions (that's not to say they <i>exist</i> for every graph).
+</p>
+</div>
+</div>
+
+</div>
+<div id="postamble" class="status"><p>अक्षयश्रीनिवासैय्यङ्गार्यः</p>
+</div>
+</body>
+</html>

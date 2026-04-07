@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>index on || वक्राकाश: ||</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content in index on || वक्राकाश: ||</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 04 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Do you know your Quaternion ?</title>
+      <link>http://localhost:1313/blog/quaternion-derivative/</link>
+      <pubDate>Sat, 04 Jul 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/quaternion-derivative/</guid>
+      <description>&lt;div id=&#34;outline-container-orgc6e6501&#34; class=&#34;outline-2&#34;&gt;&#xA;&lt;h2 id=&#34;orgc6e6501&#34;&gt;&lt;span class=&#34;section-number-2&#34;&gt;1.&lt;/span&gt; Quaternion&lt;/h2&gt;&#xA;&lt;div class=&#34;outline-text-2&#34; id=&#34;text-1&#34;&gt;&#xA;&lt;p&gt;&#xA;Quaternions are a tuple of a scalar &amp;amp; a vector \((w, v)\),&#xA;\[\operatorname{scl} : (w, v) \mapsto w \in \mathbb{R},\quad \operatorname{vec} : (w, v) \mapsto v \in \mathbb{R}^3,\]&#xA;with the group-product defined by,&#xA;\[(w_1, v_1) (w_2, v_2) = (w_1 w_2 - v_1 \cdot v_2,\; w_1 v_2 + w_2 v_1 + v_1 \times v_2),\]&#xA;and inverse by \(q^{-1} = q^* = (w, -v)\).&#xA;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;For the inverse relation to hold, we require the quaternions to be unitary,&#xA;\[q\, q^* = w^2 + v \cdot v = 1.\]&#xA;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Doḍḍagaddavaḷḷi – A Requiem For Kāḷamma</title>
+      <link>http://localhost:1313/blog/kalamma/</link>
+      <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/kalamma/</guid>
+      <description>&lt;p&gt;&#xA;(Written in the aftermath of Doḍḍagaddavaḷḷi Temple descecration in &lt;a href=&#34;https://swarajyamag.com/culture/doddagaddavalli-a-requiem-for-kalamma&#34;&gt;&lt;i&gt;Swarajya&lt;/i&gt;&lt;/a&gt;.)&#xA;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;The Lakṣmī Dēvī temple in Doḍḍagaddavaḷḷi finished in 1113 CE, is among the oldest of the temples built in the Hoysaḷa era. Commissioned by the Kāśmīri merchant Kullahana Rāhuta &amp;amp; his wife Sahajādevī in the time of Viṣṇuvardhana, the grāma became ‘Dakṣiṇa Abhinava Kolhapura’ by having the first grand temple for Lakṣmī in the South.&#xA;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;That perhaps was the high point for the sleepy town’s fortunes. It figures nowhere else in the annals of history, except perhaps in footnotes for being the birthplace of the Vīṇā legend Doraiswamy Iyengar.&#xA;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Zen¹ of Kalman filtering</title>
+      <link>http://localhost:1313/blog/kalman-filtering/</link>
+      <pubDate>Sat, 08 Oct 2016 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/kalman-filtering/</guid>
+      <description>&lt;p&gt;&#xA;Kalman filtering is often taught and understood in one of the following two ways:&#xA;&lt;/p&gt;&#xA;&lt;ul class=&#34;org-ul&#34;&gt;&#xA;&lt;li&gt;Recursive least squares.&lt;/li&gt;&#xA;&lt;li&gt;Bayesian updates with Gaussians state distributions.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&lt;p&gt;&#xA;I&#39;ve found neither of these approaches to be satisfactory. Recursive least squares becomes rather troublesome algebraically when shoehorning the Kalman filtering into a simple 1-d online regression problem. The Bayesian way, while being elegant, is not exactly nice either. Part of the reason for this is because of dealing with the Bayesian updates symbolically rather than graphically. The language of Gaussian Graphical Models isn&#39;t of much use because of the linear constraints arising in the problem. This is rather pitiable because the purpose of the language is to separate in a modular fashion, the declarative description of the problem, and the actual tedious process used to solve/optimize it. &#xA;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Hamilton-Jacobi equations &amp; Dynamic Programming</title>
+      <link>http://localhost:1313/blog/hamilton-jacobi-equations/</link>
+      <pubDate>Sat, 11 Apr 2015 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/hamilton-jacobi-equations/</guid>
+      <description>&lt;p&gt;&#xA;Things presented here are in no way original. The usual elucidation on Mechanics usually does not emphasize, beyond Hamilton&#39;s principle, the notion of &#34;control&#34;. While the connections are obvious once realized, the mathematical details are rarely found outside obscure Control theory papers (Dreyfus ?).&#xA;&lt;/p&gt;&#xA;&#xA;&lt;p&gt;&#xA;This note gives Hamilton-Jacobi a more tangible intepretation using (HJ-)Bellman&#39;s equation.&#xA;&lt;/p&gt;&#xA;&lt;div id=&#34;outline-container-orgfc31a0a&#34; class=&#34;outline-2&#34;&gt;&#xA;&lt;h2 id=&#34;orgfc31a0a&#34;&gt;&lt;span class=&#34;section-number-2&#34;&gt;1.&lt;/span&gt; Dynamic programming&lt;/h2&gt;&#xA;&lt;div class=&#34;outline-text-2&#34; id=&#34;text-1&#34;&gt;&#xA;&lt;p&gt;&#xA;Consider the control problem on a Manifold \(\mathcal{M}\) wherein one is required to go from the current \(q\) to a final \(q_f\) in time \(\tau\), all whilst minimizing the &#34;action&#34;,&#xA;\[S_f(\tau, q; \varphi) = \int_{-\tau}^{0} \mathtt{d} t\; L(\varphi(t), \dot{\varphi}(t));\quad \varphi: \langle-\tau, 0\rangle \mapsto \langle q, q_f\rangle.\]&#xA;\[V_f(\tau, q) = \min_{\begin{array}{c}\varphi : [-\tau, 0] \rightarrow \mathcal{M},\\ \varphi: \langle-\tau, 0\rangle \mapsto \langle q, q_f\rangle.\end{array}} S(\tau, q; \varphi).\]&#xA;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>A generalization of the Hammersley-Clifford theorem</title>
+      <link>http://localhost:1313/blog/hammersley-clifford-theorem/</link>
+      <pubDate>Sat, 15 Nov 2014 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/hammersley-clifford-theorem/</guid>
+      <description>&lt;p&gt;&#xA;This is minor tweak to the Grimmett&#39;s Inclusion-Exclusion &lt;a href=&#34;https://ssli.ee.washington.edu/ee512/handout2.pdf&#34;&gt;proof&lt;/a&gt; of Hammersley-Clifford theorem, which generalizes the result to &#34;potentials&#34; on arbitrary abelian groups. This is achieved via a generalization of the Möbius inversion lemma.&#xA;&lt;/p&gt;&#xA;&lt;div id=&#34;outline-container-orga3c49f0&#34; class=&#34;outline-2&#34;&gt;&#xA;&lt;h2 id=&#34;orga3c49f0&#34;&gt;&lt;span class=&#34;section-number-2&#34;&gt;1.&lt;/span&gt; &lt;i&gt;Incidence functions&lt;/i&gt;&lt;/h2&gt;&#xA;&lt;div class=&#34;outline-text-2&#34; id=&#34;text-1&#34;&gt;&#xA;&lt;p&gt;&#xA;Let \((P, \preceq)\) be a locally-finite poset, and let \((\mathcal{A}, +)\) be an Abelian group. Define \(F_G(P)\) to be the set of functions,&#xA;\[F_G(P) = \{f: P \times P \rightarrow \mathcal{A} | x \npreceq y \Rightarrow f(x, y) = 0_{\mathcal{A}}\}.\]&#xA;The set \(F_G(P)\) also inherits the group structure of \(\mathcal{A}\) by pointwise extension of &#39;\(+\)&#39;.&#xA;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Why blame Science and Religion for the Human condition ?</title>
+      <link>http://localhost:1313/blog/openpage/</link>
+      <pubDate>Sun, 17 Jun 2012 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/openpage/</guid>
+      <description>&lt;p&gt;&#xA;(Written in response to article below in &lt;a href=&#34;https://www.thehindu.com/opinion/open-page/why-blame-science-and-religion-for-the-human-foibles/article3563310.ece&#34;&gt;&lt;i&gt;The Hindu&lt;/i&gt;&lt;/a&gt;.)&#xA;&lt;/p&gt;&#xA;&#xA;&lt;details&gt;&#xA;&lt;summary&gt;Is science another of those fanatical religions? - Professor B.M. Hegde&lt;/summary&gt;&#xA;&#xA;&lt;p&gt;&#xA;“Intellectual integrity made it quite impossible for me to accept the myths and dogmas of even very great scientists, more particularly of the belligerent and so-called advanced nations. Indeed, those intellectuals who accepted them were abdicating their functions for the joy of feeling themselves at one with the herd.”— Bertrand Russell 1872-1969.&#xA;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

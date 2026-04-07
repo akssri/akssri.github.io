@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zen¹ of Kalman filtering · || वक्राकाश: ||</title>
+<meta name="author" content="अक्षयश्रीनिवासैय्यङ्गार्यः">
+
+<link rel="stylesheet" href="../../css/style.css">
+
+<link rel="stylesheet" href="../../css/syntax.css">
+<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="http://localhost:1313/feed.xml">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    tags: 'ams',
+    macros: {
+      p: '\\partial',
+      diff: ['{\\mathrm{d}{#1}}', 1],
+      E: '\\operatorname{E}',
+      e: '\\operatorname{e}',
+      id: '\\operatorname{id}',
+      nd: '{\\mathcal{N}}',
+      argmin: '\\mathsf{arg}\\,\\min',
+      argmax: '\\mathsf{arg}\\,\\max',
+      norm: ['{\\lvert\\lvert {#1} \\rvert\\rvert}', 1],
+      pr: '{\\mathbb{P}}'
+    }
+  },
+  chtml: {
+    displayAlign: 'left'
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head>
+<body>
+<div id="preamble"><header class="site-header">
+  <a class="site-title" href="../../">|| वक्राकाश: ||</a>
+</header>
+</div>
+<div id="content" class="content">
+<h1 class="title">Zen¹ of Kalman filtering</h1>
+<p class="subtitle">२०१६-१०-०८&nbsp;शनि:</p>
+
+<p>
+Kalman filtering is often taught and understood in one of the following two ways:
+</p>
+<ul class="org-ul">
+<li>Recursive least squares.</li>
+<li>Bayesian updates with Gaussians state distributions.</li>
+</ul>
+
+<p>
+I've found neither of these approaches to be satisfactory. Recursive least squares becomes rather troublesome algebraically when shoehorning the Kalman filtering into a simple 1-d online regression problem. The Bayesian way, while being elegant, is not exactly nice either. Part of the reason for this is because of dealing with the Bayesian updates symbolically rather than graphically. The language of Gaussian Graphical Models isn't of much use because of the linear constraints arising in the problem. This is rather pitiable because the purpose of the language is to separate in a modular fashion, the declarative description of the problem, and the actual tedious process used to solve/optimize it. 
+</p>
+
+<p>
+In this post I'll use the language of sparse linear algebra and QPs to sketch what is arguably the simplest derivation of Kalman filtering. Not only is such a framework useful pedagogically, but can also be used to readily extend filtering techniques and automate the generation of solvers for such problems. This approach allows one to think in terms of support graphs (and inference, tree-decompositions), without the relatively superfluous issues like positivity and normalization.
+</p>
+<div id="outline-container-org6ce7be8" class="outline-2">
+<h2 id="org6ce7be8"><span class="section-number-2">1.</span> Kalman filter</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Consider the following linear dynamics and observation functions,
+\[{\color{blue} x} = A {\color{blue} x^-} + B {\color{red} u^-} + {\color{blue} \eta},\]
+\[{\color{red} y} = H {\color{blue} x} + {\color{blue} \xi}.\]
+</p>
+
+<p>
+Our starting point is the task of approximating terms in blue using the terms in red by <i>minimizing</i> the slack variables (<i>noise</i>) \({\color{blue} \eta}, {\color{blue} \xi}\). One can imagine accomplishing this by trying to minimize a cost-function which penalizes the \(\ell_2\) norm of these slacks. A general cost function of the following form is given by,
+\[{1\over 2} \Sigma_0^{-1} \cdot ({\color{blue} x_0} - \langle x_0\rangle)^{\otimes 2} + {1\over 2} \sum_{i = 0}^N \left(\Sigma_{\xi}^{-1} \cdot \xi_i^{\otimes 2} + \Sigma_{\eta}^{-1} \cdot \eta_i^{\otimes 2} \right),\]
+with the dynamics constraining all subsequent variables and slacks (where \(A \cdot x^{\otimes 2} \equiv x^T A x\)).
+</p>
+
+<p>
+(Note: the above cost function corresponds to the assumption of normally distributed variables.)
+</p>
+
+<p>
+Since the variables in the cost function are separable, the <i>structure</i> of the problem is dictated only by the constraints. The constraints, being <i>first-order</i> in nature, only entangle subsequent state variables and the slack variables. This corresponds to a support graph for the QP that is a <i>chain</i>, with a tree-width of 4.
+</p>
+
+
+<div id="orgd784693" class="figure">
+<p><img src="../../img/kf.svg" alt="kf.svg" class="org-svg" />
+</p>
+</div>
+
+<p>
+The problem above a canonical equality-constrained QP. It's well known that the minimizer for the QP,  \(\;\min_{x, Cx = d} {1\over 2} Q \cdot {x}^{\otimes 2} - b x\), is given by the solution to the KKT equation,
+\[\left[\begin{array}{c c}Q & C^T \\ C & 0 \end{array}\right] \left[\begin{array}{c}x \\ \lambda \end{array}\right] =  \left[\begin{array}{c}b \\ d \end{array}\right],\] 
+where \(\lambda\) denotes the Lagrange multiplier associated with the constraint \(Cx = d\).
+</p>
+
+<p>
+Writing down the full KKT matrix for the KF problem is troublesome. It suffices however to consider only the minor corresponding to the first clique involving \(x_0, \eta_0, \xi_0, x_1\) and their associated dual variables \(\nu_0, \lambda_0\). The minor captures all the relations within the clique, and that of the interior of the clique to the boundary variable \(x_1\) (which will then be <i>solved</i> in the adjacent clique).
+\[\left[\begin{array}{c c c c c c}
+\Sigma_0^{-1} & & & & A^T & 0\\
+& \Sigma_{\eta}^{-1}& & & I & 0 \\ 
+& & \Sigma_{\xi}^{-1}& & 0 & I\\
+& & & 0 & -I & H^T\\
+A & I & 0 & -I & & \\
+0 & 0 & I & H & & &\\\end{array}\right] \left[\begin{array}{c} x_0\\ \eta_0\\ \xi_0\\ x_1\\ \nu_0\\ \lambda_0\end{array}\right] = \left[\begin{array}{c} \Sigma_0^{-1} \langle x_0 \rangle\\ 0\\ 0 \\ 0\\ -B {\color{red} u}\\ {\color{red} y} \end{array}\right]\]
+</p>
+
+<p>
+It's easy to understand that since \(x_1\) is the only link to the rest of the QP, it can't yet be solved, but the others certainly can be written in terms of \(x_1\). Hence, we eliminate every other variable and <i>pass a message</i> onto \(x_1\), with the hope that once \(x_1\) is solved, so can those being <i>eliminated</i> prior to it. The <i>message</i> being passed is given essentially by taking the <a href="https://en.wikipedia.org/wiki/Schur_complement">Schur-complement</a> of \(x_0, \eta_0, \xi_0, \lambda_0, \nu_0\) onto \(x_1\), thus shrinking the chain from the left. Once this is done, we get a new "covariance" and "mean" on \(x_1\) which can now be used for its prediction. Rinse-repeat down the chain and you'll have yourself a Kalman filter. 
+</p>
+</div>
+</div>
+<div id="outline-container-orga32b1c6" class="outline-2">
+<h2 id="orga32b1c6"><span class="section-number-2">2.</span> Wait that's it ?</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The only reason KF is so opaque (<a href="#orgf7dbf58">3</a>) and incomprehensible is because the update equations are symbolically solving for 5-variables in a 6-variable linear equation. One may want to write it out for efficiency reasons, but one can also choose to take the easy way out with a single <code>getrf/getrs</code> call without losing too much (<a href="#orge2a0b2b">4</a>) - this might in fact be slightly better conditioned.
+</p>
+
+<p>
+From here on, it's not difficult to make other connexions,
+</p>
+<ul class="org-ul">
+<li>If we keep our promise to \(x_0\) and go back for it up the graph, after substituting the primal &amp; dual values found downstream, we'd be performing what is known as <i>smoothing.</i> One could also do this only for a fixed window backward, thus gaining a better estimate of the trail immediately left by the system.</li>
+<li>If you pay keen attention, you'll realize this whole process is equivalent to doing a LU decomposition; that one of the <code>trsm</code> 's can be computed along with the decomposition. This is known in the Graphical models world as "Gaussian Belief Propagation", but there are restrictions imposed in this setting by the probabilistic nature of the model.</li>
+<li>Note that there is nothing stopping us from having a model where everything is co-related - the \(\{x_0, \eta_0, \xi_0\}\) minor can be fully dense. This would be useful in cases such as robot-arms with end-effector sensors; joint noise in such systems translates via the state-dependent moment arm to the end-effector sensors.</li>
+<li>One can use Cholesky to eliminate the diagonal terms in the elimination process (<a href="#orgf7dbf58">3</a>), and obtain a square-root filter.</li>
+<li>If we wanted to derive a Kalman <i>predictor</i> (\({\color{red} y} = H {\color{blue} x^-} + {\color{blue} \xi}\)), we'd have to solve instead the following system,</li>
+</ul>
+<p>
+\[\left[\begin{array}{c c c c c c}
+\Sigma_0^{-1} & & & & A^T & H^T\\
+& \Sigma_{\eta}^{-1}& & & I & 0 \\ 
+& & \Sigma_{\xi}^{-1}& & 0 & I\\
+& & & 0 & -I & 0\\
+A & I & 0 & -I & & \\
+H & 0 & I & 0 & & &\\\end{array}\right] \left[\begin{array}{c} x_0\\ \eta_0\\ \xi_0\\ x_1\\ \nu_0\\ \lambda_0\end{array}\right] = \left[\begin{array}{c} \Sigma_0^{-1} \langle x_0 \rangle\\ 0\\ 0 \\ 0\\ -B {\color{red} u}\\ {\color{red} y} \end{array}\right]\]
+</p>
+</div>
+</div>
+<div id="outline-container-orgf7dbf58" class="outline-2">
+<h2 id="orgf7dbf58"><span class="section-number-2">3.</span> Symbolic elimination</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Cranking the machinery is tough work, as anyone who has derived KF knows. Here's how the symbolic unrolling would work in the above context,
+</p>
+
+<ul class="org-ul">
+<li>Our minor for the clique, written as at tableau.</li>
+</ul>
+<p>
+\[\left[\begin{array}{c c c c c c | c }
+\Sigma_0^{-1} & & & & A^T & 0 & \Sigma_0^{-1} \langle x_0 \rangle\\
+& \Sigma_{\eta}^{-1}& & & I & 0 & 0\\
+& & \Sigma_{\xi}^{-1}& & 0 & I& 0\\
+& & & 0 & -I & H^T & 0\\
+A & I & 0 & -I & & & -B {\color{red} u}\\
+0 & 0 & I & H & & & {\color{red} y}\\\end{array}\right] ; \quad \quad \mbox{variables} : \left(\begin{array}{c} x_0\\ \eta_0\\ \xi_0\\ x_1\\ \nu_0\\ \lambda_0\end{array}\right)\]
+</p>
+
+<ul class="org-ul">
+<li>Eliminate \(\{x_0, \eta_0, \xi_0\}\) to get,</li>
+</ul>
+<p>
+\[\rightarrow \left[\begin{array}{c c c | c}
+0 & -I & H^T & 0\\
+-I & -\Sigma_{\eta} - A \Sigma_0 A^T & 0 & -(A \langle x_0 \rangle + B {\color{red} u}) \\
+H & 0 & -\Sigma_{\xi}  & {\color{red} y} \end{array}\right] ; \quad \quad \mbox{variables} : \left(\begin{array}{c} x_1\\ \nu_0\\ \lambda_0\end{array}\right)\]
+</p>
+
+<ul class="org-ul">
+<li>Elimintate \(\{\lambda_0\}\) to get,</li>
+</ul>
+<p>
+\[\rightarrow \left[\begin{array}{c c | c}
+H^T \Sigma_{\xi}^{-1} H & -I & H^T \Sigma_{\xi}^{-1} {\color{red} y}\\
+-I & -\Sigma_{\eta} - A \Sigma_0 A^T & -(A \langle x_0 \rangle + B {\color{red} u}) \end{array}\right] ; \quad \quad \mbox{variables} : \left(\begin{array}{c} x_1\\ \nu_0\end{array}\right)\]
+</p>
+
+<ul class="org-ul">
+<li>Eliminate \(\{\nu_0\}\) to get,</li>
+</ul>
+<p>
+\[\rightarrow \left[\begin{array}{c | c}
+ S_x^{-1} + H^T \Sigma_{\xi}^{-1} H & S_x^{-1} (A \langle x_0 \rangle + B {\color{red} u}) + H^T \Sigma_{\xi}^{-1} {\color{red} y}\\
+\end{array}\right] ; \quad \quad \mbox{variables} : \left(\begin{array}{c} x_1 \end{array}\right)\]
+where \(\boxed{S_x = \Sigma_{\eta} + A \Sigma_0 A^T}\).
+</p>
+
+<p>
+Now putting our probability hat on, using the relation between information form \(\mathcal{N}^{-1}(h, J) = \mathcal{N}(J^{-1} h, J^{-1})\) and the <a href="https://en.wikipedia.org/wiki/Woodbury_matrix_identity">matrix inversion lemma</a>,
+\[\boxed{\Sigma_1} =  (S_x^{-1} + H^T \Sigma_{\xi}^{-1} H)^{-1} = S_x - S_x H^T (\Sigma_{\xi} + H S_x H^T)^{-1} H S_x = \boxed{(I - K H) S_x},\]
+where the Kalman gain is given by \(\boxed{K = S_x H^T (\Sigma_{\xi} + H S_x H^T)^{-1}}\).
+</p>
+
+<p>
+\[\boxed{\langle x_1 \rangle} = (I - K H) \left[(A \langle x_0 \rangle + B {\color{red} u}) + S_x H^T \Sigma_{\xi}^{-1} {\color{red} y}\right] = (A \langle x_0 \rangle + B {\color{red} u}) +  - K \langle y \rangle + S_x H^T \Sigma_{\xi}^{-1} y - K ( H S_x H^T + \Sigma_{\xi} - \Sigma_{\xi}) \Sigma_{\xi}^{-1} y = \boxed{(A \langle x_0 \rangle + B {\color{red} u}) + K ({\color{red} y} - \langle y \rangle)},\] 
+where \(\langle y \rangle = H (A \langle x_0 \rangle + B {\color{red} u})\).
+</p>
+
+<p>
+As mentioned before, once solving linear equations is understood, the process shown above is <i>trivial</i> (i.e well-understood, not not-tedious). The above process does however require a working knowledge of the probabilistic forms and the Woodbury identity, but this is only necesssary in order to obtain the KF equations. The next section completely gets rid of this latter process and makes the solution process a part of a LAPACK routine.
+</p>
+</div>
+</div>
+<div id="outline-container-orge2a0b2b" class="outline-2">
+<h2 id="orge2a0b2b"><span class="section-number-2">4.</span> Lazy man's KF</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Okay, I guess the path to the KF equations involves some usage of the Woodbury matrix identity, but do you really need these expressions ? May be you don't want to be super-efficient, or may be you just want something you know you won't mess up, or may be you're just sick of writing BLAS/LAPACK calls. Whatever your reason, fret not ! There is hope! 
+</p>
+
+<p>
+In the information form, the posterior is given simply by,
+\[J_1 = - W^T Q^{-1} W, \quad h_1 = - W^{T} Q^{-1} z,\quad\quad \quad \Sigma_1 = J_1^{-1}, \langle x_1 \rangle = J_1^{-1} h_1,\]
+where,
+\[Q = \left[\begin{array}{c c c c c}
+\Sigma_0^{-1} & & & & A^T\\
+& \Sigma_{\eta}^{-1}& & & I\\ 
+& & \Sigma_{\xi}^{-1}& & 0\\
+A & I & 0 & & &\\
+0 & 0 & I & & &\\
+\end{array}\right], \quad W = \left[\begin{array}{c} 0 \\0\\ 0\\ -I\\ H\end{array}\right], \quad z = \left[\begin{array}{c} \Sigma_0^{-1} \langle x_0 \rangle\\ 0\\ 0 \\ -B {\color{red} u}\\ {\color{red} y} \end{array}\right]\]
+</p>
+
+<p>
+This can be seen as solving the minor in one-shot by reducing the variables \(\{x_0, \eta_0, \xi_0, x_1, \nu_0, \lambda_0\}\) together at once.
+</p>
+
+<p>
+.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Amusing usage, since Zen / <a href="http://www.romajidesu.com/kanji/%E7%A6%85">禅</a> (<a href="http://www.spokensanskrit.de/index.php?tinput=dhyAna&amp;direction=SE&amp;script=HK&amp;link=yes&amp;beginning=0">ध्यान</a>) is merely a process to attain Chi / <a href="http://www.romajidesu.com/kanji/%E7%9F%A5%E6%99%BA">知智</a> (<a href="http://www.spokensanskrit.de/index.php?tinput=tatva&amp;direction=SE&amp;script=HK&amp;link=yes&amp;beginning=0">तत्व</a>, <a href="http://www.spokensanskrit.de/index.php?tinput=jJAna&amp;direction=SE&amp;script=HK&amp;link=yes&amp;beginning=0">ज्ञान</a>).
+</p></div></div>
+
+
+</div>
+</div>
+</div>
+<div id="postamble" class="status"><p>अक्षयश्रीनिवासैय्यङ्गार्यः</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamilton-Jacobi equations &amp; Dynamic Programming · || वक्राकाश: ||</title>
+<meta name="author" content="अक्षयश्रीनिवासैय्यङ्गार्यः">
+
+<link rel="stylesheet" href="../../css/style.css">
+
+<link rel="stylesheet" href="../../css/syntax.css">
+<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="http://localhost:1313/feed.xml">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    tags: 'ams',
+    macros: {
+      p: '\\partial',
+      diff: ['{\\mathrm{d}{#1}}', 1],
+      E: '\\operatorname{E}',
+      e: '\\operatorname{e}',
+      id: '\\operatorname{id}',
+      nd: '{\\mathcal{N}}',
+      argmin: '\\mathsf{arg}\\,\\min',
+      argmax: '\\mathsf{arg}\\,\\max',
+      norm: ['{\\lvert\\lvert {#1} \\rvert\\rvert}', 1],
+      pr: '{\\mathbb{P}}'
+    }
+  },
+  chtml: {
+    displayAlign: 'left'
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head>
+<body>
+<div id="preamble"><header class="site-header">
+  <a class="site-title" href="../../">|| वक्राकाश: ||</a>
+</header>
+</div>
+<div id="content" class="content">
+<h1 class="title">Hamilton-Jacobi equations &amp; Dynamic Programming</h1>
+<p class="subtitle">२०१५-०४-११&nbsp;शनि:</p>
+
+<p>
+Things presented here are in no way original. The usual elucidation on Mechanics usually does not emphasize, beyond Hamilton's principle, the notion of "control". While the connections are obvious once realized, the mathematical details are rarely found outside obscure Control theory papers (Dreyfus ?).
+</p>
+
+<p>
+This note gives Hamilton-Jacobi a more tangible intepretation using (HJ-)Bellman's equation.
+</p>
+<div id="outline-container-orgfc31a0a" class="outline-2">
+<h2 id="orgfc31a0a"><span class="section-number-2">1.</span> Dynamic programming</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Consider the control problem on a Manifold \(\mathcal{M}\) wherein one is required to go from the current \(q\) to a final \(q_f\) in time \(\tau\), all whilst minimizing the "action",
+\[S_f(\tau, q; \varphi) = \int_{-\tau}^{0} \mathtt{d} t\; L(\varphi(t), \dot{\varphi}(t));\quad \varphi: \langle-\tau, 0\rangle \mapsto \langle q, q_f\rangle.\]
+\[V_f(\tau, q) = \min_{\begin{array}{c}\varphi : [-\tau, 0] \rightarrow \mathcal{M},\\ \varphi: \langle-\tau, 0\rangle \mapsto \langle q, q_f\rangle.\end{array}} S(\tau, q; \varphi).\]
+</p>
+
+<p>
+Approximating by finite-difference,
+\[V_f(\tau, q) = \min_{\dot{q}} \left[L(q, \dot{q}) \delta t + V(\tau - \delta t, q - \dot{q} \delta t)\right] + o(\delta t) .\]
+</p>
+<ul class="org-ul">
+<li>Note: We're going "backwards-in-time", away from \(q_f\), in contrast with HJB tradition.</li>
+</ul>
+
+<p>
+Hence,
+\[\partial_0 V_f(\tau, q) = \min_{\dot{q}} L(q, \dot{q}) - \partial_1 V(\tau, q) \dot{q}.\]
+</p>
+</div>
+</div>
+<div id="outline-container-orgdaeaafe" class="outline-2">
+<h2 id="orgdaeaafe"><span class="section-number-2">2.</span> Momentum \(\equiv\) Control policy</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+If \(\dot{q} \mapsto L(q, \dot{q})\) is <a href="http://ncatlab.org/nlab/show/convex+space">"convex"</a> \(\forall q \in \mathcal{M}\) (read as "has no local minima") then the term inside the minimization is simply the Legendre-transform of \(L\),
+\[\mathbb{D}_2[L](q, p) = \sup_{\dot{q}} p \dot{q} - L(q, \dot{q}).\]
+Hence,
+\[\partial_0 V_f(\tau, q) = - H(q, p := \partial_1 V_f(\tau, q)).\]
+and we get the famed Hamilton-Jacobi equation. If the functions involved are smooth, then \(\partial_2 L(q, \dot{q}^{(*)}) = \partial_1 V_f(\tau, q)\), where \(\dot{q}^{(*)}\) is the minimizer.
+</p>
+
+<p>
+If we can find value functions \(V_f\) which gives a "map" for reaching \(q_f, \forall q_f\), then the system is completely integrable (and probably boring). This also means that solving Boundary-value problems for such systems is trivial.
+</p>
+
+<ul class="org-ul">
+<li><i>Digression</i>: I haven't thought much about the subtleties of the co-ordinate invariant viewpoint. Folk in Differential Geometry, use what is known as the "Fiber derivative" over the Tangent-bundle: one simply assumes \(p^{(*)} = \mathbb{F}[L](\dot{q}) \equiv \partial_2 L(q, \dot{q})\). The latter viewpoint is probably okay for local-variational-stationarity, but completely obscures momentum by relegating it as a construct from Euler-Lagrange. This is also the approach taken by <a href="http://mitpress.mit.edu/sites/default/files/titles/content/sicm/book.html">SICM</a>. It appears however, that the "no-local-minimum" condition is topologically invariant due to Morse-theory (probably), and also equivalent to the fiber-derivative being a diffeomorphism.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6eb30dc" class="outline-2">
+<h2 id="org6eb30dc"><span class="section-number-2">3.</span> Hamilton's equations</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Because Legendre transform is <i>involutive</i>, we can recover \(\dot{q}\),
+\[L(q, \dot{q}) = \mathbb{D}_2[H](q, p) = \sup_{p} \dot{q} p - H(q, p).\]
+The value attaining the latter maximum given (for smooth functions) by \(\dot{q}^{(*)} = \partial_2 H(q, p)\).
+</p>
+
+<p>
+Now for \(\dot{p}\).
+\[\begin{array}{l}\dot{p} = \partial^2_{01} V(\tau, q) + \partial^2_{1} V(\tau, q) \dot{q}\\
+\quad = \partial_1 (- \lambda \tau, q . H(q, \partial_1 V(\tau, q))) + \partial^2_{1} V(\tau, q) \partial_2 H(q, p)\\
+\quad = - \partial_1 H(q, p).\end{array}\]
+Consequently the Hamiltonian is a first integral of motion, \(\dot{H} = 0\).
+</p>
+</div>
+</div>
+
+</div>
+<div id="postamble" class="status"><p>अक्षयश्रीनिवासैय्यङ्गार्यः</p>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hamilton-Jacobi equations &amp; Dynamic Programming · || वक्राकाश: ||</title>
 <meta name="author" content="अक्षयश्रीनिवासैय्यङ्गार्यः">
@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../../css/style.css">
 
 <link rel="stylesheet" href="../../css/syntax.css">
-<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="http://localhost:1313/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="https://vakra.xyz/feed.xml">
 <script>
 MathJax = {
   tex: {
@@ -53,8 +53,8 @@ Things presented here are in no way original. The usual elucidation on Mechanics
 <p>
 This note gives Hamilton-Jacobi a more tangible intepretation using (HJ-)Bellman's equation.
 </p>
-<div id="outline-container-orgfc31a0a" class="outline-2">
-<h2 id="orgfc31a0a"><span class="section-number-2">1.</span> Dynamic programming</h2>
+<div id="outline-container-org77bbfd1" class="outline-2">
+<h2 id="org77bbfd1"><span class="section-number-2">1.</span> Dynamic programming</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Consider the control problem on a Manifold \(\mathcal{M}\) wherein one is required to go from the current \(q\) to a final \(q_f\) in time \(\tau\), all whilst minimizing the "action",
@@ -76,8 +76,8 @@ Hence,
 </p>
 </div>
 </div>
-<div id="outline-container-orgdaeaafe" class="outline-2">
-<h2 id="orgdaeaafe"><span class="section-number-2">2.</span> Momentum \(\equiv\) Control policy</h2>
+<div id="outline-container-orgb0f79ca" class="outline-2">
+<h2 id="orgb0f79ca"><span class="section-number-2">2.</span> Momentum \(\equiv\) Control policy</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 If \(\dot{q} \mapsto L(q, \dot{q})\) is <a href="http://ncatlab.org/nlab/show/convex+space">"convex"</a> \(\forall q \in \mathcal{M}\) (read as "has no local minima") then the term inside the minimization is simply the Legendre-transform of \(L\),
@@ -96,8 +96,8 @@ If we can find value functions \(V_f\) which gives a "map" for reaching \(q_f, \
 </ul>
 </div>
 </div>
-<div id="outline-container-org6eb30dc" class="outline-2">
-<h2 id="org6eb30dc"><span class="section-number-2">3.</span> Hamilton's equations</h2>
+<div id="outline-container-orgbad1149" class="outline-2">
+<h2 id="orgbad1149"><span class="section-number-2">3.</span> Hamilton's equations</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Because Legendre transform is <i>involutive</i>, we can recover \(\dot{q}\),

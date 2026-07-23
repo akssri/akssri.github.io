@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Do you know your Quaternion ? · || वक्राकाश: ||</title>
 <meta name="author" content="अक्षयश्रीनिवासैय्यङ्गार्यः">
@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../../css/style.css">
 
 <link rel="stylesheet" href="../../css/syntax.css">
-<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="http://localhost:1313/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="https://vakra.xyz/feed.xml">
 <script>
 MathJax = {
   tex: {
@@ -46,8 +46,8 @@ MathJax = {
 <h1 class="title">Do you know your Quaternion ?</h1>
 <p class="subtitle">२०२६-०७-०४&nbsp;शनि:</p>
 
-<div id="outline-container-orgc6e6501" class="outline-2">
-<h2 id="orgc6e6501"><span class="section-number-2">1.</span> Quaternion</h2>
+<div id="outline-container-org33c4e51" class="outline-2">
+<h2 id="org33c4e51"><span class="section-number-2">1.</span> Quaternion</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Quaternions are a tuple of a scalar &amp; a vector \((w, v)\),
@@ -63,8 +63,8 @@ For the inverse relation to hold, we require the quaternions to be unitary,
 </p>
 </div>
 </div>
-<div id="outline-container-orgeb815c0" class="outline-2">
-<h2 id="orgeb815c0"><span class="section-number-2">2.</span> Action on \(\mathbb{R}^3\)</h2>
+<div id="outline-container-org3a7cac1" class="outline-2">
+<h2 id="org3a7cac1"><span class="section-number-2">2.</span> Action on \(\mathbb{R}^3\)</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Quaternions are used widely for parametrizing rotations using their action on \(\mathbb{R}^{3}\),
@@ -89,8 +89,8 @@ Note: we'll be abusing the notation in the following sections by considering \((
 </p>
 </div>
 </div>
-<div id="outline-container-org21b6104" class="outline-2">
-<h2 id="org21b6104"><span class="section-number-2">3.</span> Variational forms</h2>
+<div id="outline-container-orgf3cda73" class="outline-2">
+<h2 id="orgf3cda73"><span class="section-number-2">3.</span> Variational forms</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The next building block we need is the effect of small-variations on this <i>action</i>,
@@ -147,8 +147,8 @@ Typically, one parametrizes variations using either \(\omega\) or \(\Omega\) rat
 </p>
 </div>
 </div>
-<div id="outline-container-org4380e4b" class="outline-2">
-<h2 id="org4380e4b"><span class="section-number-2">4.</span> Chain-rule / Pull-back</h2>
+<div id="outline-container-org530f178" class="outline-2">
+<h2 id="org530f178"><span class="section-number-2">4.</span> Chain-rule / Pull-back</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Suppose we have some function \(f: Q \rightarrow \mathbb{R}\). Variations of \(f\) are of the form,
@@ -175,8 +175,8 @@ Suppose \(df = (df_w, df_v)\),
 </p>
 </div>
 </div>
-<div id="outline-container-orge359d10" class="outline-2">
-<h2 id="orge359d10"><span class="section-number-2">5.</span> Example — pose derivatives in MuJoCo</h2>
+<div id="outline-container-org9cefc00" class="outline-2">
+<h2 id="org9cefc00"><span class="section-number-2">5.</span> Example — pose derivatives in MuJoCo</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 For a concrete demonstration, let's look at how to deal with the derivatives of pose-quaternions in MuJoCo. The object-pose shows up in loss-functions ranging from IK to state-estimation to control, so their derivatives show up everywhere as well. There are multiple ways of measuring deviations from a target-pose: one is to minimize the vector part of the difference, \(\operatorname{vec}[q_s(\theta)\, q_t^{-1}]\); another is to minimize the (quaternion) log of the difference, \(2 \log(q_t\, q_s(\theta)^{-1})\). The latter is very popular in the MuJoCo ecosystem for IK, etc.
@@ -334,8 +334,8 @@ It's surprising that the simple trick presented here for computing analytical de
 </p>
 </div>
 </div>
-<div id="outline-container-orgcc779fa" class="outline-2">
-<h2 id="orgcc779fa"><span class="section-number-2">6.</span> Appendix</h2>
+<div id="outline-container-orga403c71" class="outline-2">
+<h2 id="orga403c71"><span class="section-number-2">6.</span> Appendix</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 The notation above was very hand-wavy by choice. The usual route involves Lie groups and algebras, which requires some mathematical maturity to follow but ultimately doesn't add much for readers not dealing with general Lie groups.
@@ -358,8 +358,8 @@ Alternatively, one can take SICM's path of using rotation-matrices directly,
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf3dce42" class="outline-2">
-<h2 id="orgf3dce42"><span class="section-number-2">7.</span> Revisions</h2>
+<div id="outline-container-orgcceb99e" class="outline-2">
+<h2 id="orgcceb99e"><span class="section-number-2">7.</span> Revisions</h2>
 <div class="outline-text-2" id="text-7">
 <ul class="org-ul">
 <li><span class="timestamp-wrapper"><span class="timestamp">&lt;2026-07-17 शुक्र&gt;</span></span>: original version used \(\log(q_s\, q_t^*)\); replaced this with what dm<sub>control</sub> uses \(\log(q_t\, q_s^*)\).</li>

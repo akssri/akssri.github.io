@@ -2,28 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2026-07-17T10:42:39+05:30</lastmod>
+    <loc>https://vakra.xyz/</loc>
+    <lastmod>2026-07-23T12:14:52+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/</loc>
+    <loc>https://vakra.xyz/blog/</loc>
     <lastmod>2026-07-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/quaternion-derivative/</loc>
+    <loc>https://vakra.xyz/blog/quaternion-derivative/</loc>
     <lastmod>2026-07-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/kalamma/</loc>
+    <loc>https://vakra.xyz/blog/kalamma/</loc>
     <lastmod>2020-11-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/kalman-filtering/</loc>
+    <loc>https://vakra.xyz/blog/kalman-filtering/</loc>
     <lastmod>2016-10-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/hamilton-jacobi-equations/</loc>
+    <loc>https://vakra.xyz/blog/hamilton-jacobi-equations/</loc>
     <lastmod>2015-04-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/hammersley-clifford-theorem/</loc>
+    <loc>https://vakra.xyz/blog/hammersley-clifford-theorem/</loc>
     <lastmod>2014-11-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/blog/openpage/</loc>
+    <loc>https://vakra.xyz/blog/openpage/</loc>
     <lastmod>2012-06-17T00:00:00+00:00</lastmod>
   </url>
 </urlset>

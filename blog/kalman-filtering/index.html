@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zen¹ of Kalman filtering · || वक्राकाश: ||</title>
 <meta name="author" content="अक्षयश्रीनिवासैय्यङ्गार्यः">
@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../../css/style.css">
 
 <link rel="stylesheet" href="../../css/syntax.css">
-<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="http://localhost:1313/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="|| वक्राकाश: ||" href="https://vakra.xyz/feed.xml">
 <script>
 MathJax = {
   tex: {
@@ -61,8 +61,8 @@ I've found neither of these approaches to be satisfactory. Recursive least squar
 <p>
 In this post I'll use the language of sparse linear algebra and QPs to sketch what is arguably the simplest derivation of Kalman filtering. Not only is such a framework useful pedagogically, but can also be used to readily extend filtering techniques and automate the generation of solvers for such problems. This approach allows one to think in terms of support graphs (and inference, tree-decompositions), without the relatively superfluous issues like positivity and normalization.
 </p>
-<div id="outline-container-org6ce7be8" class="outline-2">
-<h2 id="org6ce7be8"><span class="section-number-2">1.</span> Kalman filter</h2>
+<div id="outline-container-org4d27d19" class="outline-2">
+<h2 id="org4d27d19"><span class="section-number-2">1.</span> Kalman filter</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Consider the following linear dynamics and observation functions,
@@ -85,7 +85,7 @@ Since the variables in the cost function are separable, the <i>structure</i> of 
 </p>
 
 
-<div id="orgd784693" class="figure">
+<div id="orgba31b5d" class="figure">
 <p><img src="../../img/kf.svg" alt="kf.svg" class="org-svg" />
 </p>
 </div>
@@ -112,11 +112,11 @@ It's easy to understand that since \(x_1\) is the only link to the rest of the Q
 </p>
 </div>
 </div>
-<div id="outline-container-orga32b1c6" class="outline-2">
-<h2 id="orga32b1c6"><span class="section-number-2">2.</span> Wait that's it ?</h2>
+<div id="outline-container-org85f8a02" class="outline-2">
+<h2 id="org85f8a02"><span class="section-number-2">2.</span> Wait that's it ?</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-The only reason KF is so opaque (<a href="#orgf7dbf58">3</a>) and incomprehensible is because the update equations are symbolically solving for 5-variables in a 6-variable linear equation. One may want to write it out for efficiency reasons, but one can also choose to take the easy way out with a single <code>getrf/getrs</code> call without losing too much (<a href="#orge2a0b2b">4</a>) - this might in fact be slightly better conditioned.
+The only reason KF is so opaque (<a href="#org133c28d">3</a>) and incomprehensible is because the update equations are symbolically solving for 5-variables in a 6-variable linear equation. One may want to write it out for efficiency reasons, but one can also choose to take the easy way out with a single <code>getrf/getrs</code> call without losing too much (<a href="#org4083d9a">4</a>) - this might in fact be slightly better conditioned.
 </p>
 
 <p>
@@ -126,7 +126,7 @@ From here on, it's not difficult to make other connexions,
 <li>If we keep our promise to \(x_0\) and go back for it up the graph, after substituting the primal &amp; dual values found downstream, we'd be performing what is known as <i>smoothing.</i> One could also do this only for a fixed window backward, thus gaining a better estimate of the trail immediately left by the system.</li>
 <li>If you pay keen attention, you'll realize this whole process is equivalent to doing a LU decomposition; that one of the <code>trsm</code> 's can be computed along with the decomposition. This is known in the Graphical models world as "Gaussian Belief Propagation", but there are restrictions imposed in this setting by the probabilistic nature of the model.</li>
 <li>Note that there is nothing stopping us from having a model where everything is co-related - the \(\{x_0, \eta_0, \xi_0\}\) minor can be fully dense. This would be useful in cases such as robot-arms with end-effector sensors; joint noise in such systems translates via the state-dependent moment arm to the end-effector sensors.</li>
-<li>One can use Cholesky to eliminate the diagonal terms in the elimination process (<a href="#orgf7dbf58">3</a>), and obtain a square-root filter.</li>
+<li>One can use Cholesky to eliminate the diagonal terms in the elimination process (<a href="#org133c28d">3</a>), and obtain a square-root filter.</li>
 <li>If we wanted to derive a Kalman <i>predictor</i> (\({\color{red} y} = H {\color{blue} x^-} + {\color{blue} \xi}\)), we'd have to solve instead the following system,</li>
 </ul>
 <p>
@@ -140,8 +140,8 @@ H & 0 & I & 0 & & &\\\end{array}\right] \left[\begin{array}{c} x_0\\ \eta_0\\ \x
 </p>
 </div>
 </div>
-<div id="outline-container-orgf7dbf58" class="outline-2">
-<h2 id="orgf7dbf58"><span class="section-number-2">3.</span> Symbolic elimination</h2>
+<div id="outline-container-org133c28d" class="outline-2">
+<h2 id="org133c28d"><span class="section-number-2">3.</span> Symbolic elimination</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Cranking the machinery is tough work, as anyone who has derived KF knows. Here's how the symbolic unrolling would work in the above context,
@@ -205,8 +205,8 @@ As mentioned before, once solving linear equations is understood, the process sh
 </p>
 </div>
 </div>
-<div id="outline-container-orge2a0b2b" class="outline-2">
-<h2 id="orge2a0b2b"><span class="section-number-2">4.</span> Lazy man's KF</h2>
+<div id="outline-container-org4083d9a" class="outline-2">
+<h2 id="org4083d9a"><span class="section-number-2">4.</span> Lazy man's KF</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Okay, I guess the path to the KF equations involves some usage of the Woodbury matrix identity, but do you really need these expressions ? May be you don't want to be super-efficient, or may be you just want something you know you won't mess up, or may be you're just sick of writing BLAS/LAPACK calls. Whatever your reason, fret not ! There is hope! 
